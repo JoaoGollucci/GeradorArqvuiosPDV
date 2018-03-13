@@ -21,7 +21,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Tela extends javax.swing.JFrame {
         GeradorArquivo xama = new GeradorArquivo();
-        String pedidoSap, imei, simcard, msisdn, linha, ddd, uf, titulo;
+        String pedidoSap, imei, simcard, msisdn, linha, ddd, uf, titulo, imeiVelho=null, simcardVelho=null;
         int linhas=0;
         List lista = new ArrayList();
     	String[] listaStr;
@@ -341,40 +341,50 @@ public class Tela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "SIMCARD deve conter 18 caracteres !");
         }else if(msisdn.length()!=11){
             JOptionPane.showMessageDialog(null, "MSISDN deve conter 11 caracteres !");
-        }else{
-            ddd=msisdn.substring(0, 2);
+        }else if(linhas>=1){
+                if(imeiVelho.equals(imei)){
+                JOptionPane.showMessageDialog(null, "IMEI Utilizado é Igual da Linha Anterior !");
+                }else if(simcardVelho.equals(simcard)){
+                JOptionPane.showMessageDialog(null, "SIMCARD Utilizado é Igual da Linha Anterior !");
+                }else{
+                    
+                    imeiVelho = imei;
+                    simcardVelho = simcard;
+            
+            
+                    ddd=msisdn.substring(0, 2);
 
-            if(ddd.equals("31")){
-                uf="MG";
-            }else if(ddd.equals("61")){
-                uf="DF";
-            }else{
+                    if(ddd.equals("31")){
+                        uf="MG";
+                    }else if(ddd.equals("61")){
+                        uf="DF";
+                    }else{
 
-                uf=JOptionPane.showInputDialog(null, "Insira a UF da sua Massa: ");
-            }
+                        uf=JOptionPane.showInputDialog(null, "Insira a UF da sua Massa: ");
+                    }
 
-            while(uf.length()!=2){
-                JOptionPane.showMessageDialog(null, "UF Deve possuir apenas 2 caracteres:");
-                uf=JOptionPane.showInputDialog("Insira sua UF: ").toUpperCase();
-            }
+                    while(uf.length()!=2){
+                        JOptionPane.showMessageDialog(null, "UF Deve possuir apenas 2 caracteres:");
+                        uf=JOptionPane.showInputDialog("Insira sua UF: ").toUpperCase();
+                    }
 
-            linhas++;
-            linha=xama.geraLinha(pedidoSap, uf, imei, simcard, msisdn);
-            //        jTextArea1.setText(linha);
-            jTextArea1.insert(linha, jTextArea1.getCaretPosition());
-            jTextArea1.append("\n");
-            titulo=xama.geraTitulo(pedidoSap, uf, imei, simcard, msisdn);
-            lista.add(linha);
+                    linhas++;
+                    linha=xama.geraLinha(pedidoSap, uf, imei, simcard, msisdn);
+                    //        jTextArea1.setText(linha);
+                    jTextArea1.insert(linha, jTextArea1.getCaretPosition());
+                    jTextArea1.append("\n");
+                    titulo=xama.geraTitulo(pedidoSap, uf, imei, simcard, msisdn);
+                    lista.add(linha);
 
-            jButton2.setEnabled(true);
+                    jButton2.setEnabled(true);
 
-            jTextField1.setText("");
-            jTextField2.setText("");
-            jTextField3.setText("");
-            jTextField4.setText("");
-
+                    jTextField1.setText("");
+                    jTextField2.setText("");
+                    jTextField3.setText("");
+                    jTextField4.setText("");
+                }
+        
         }
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
