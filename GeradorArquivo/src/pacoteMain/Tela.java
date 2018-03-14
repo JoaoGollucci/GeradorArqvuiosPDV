@@ -5,6 +5,7 @@
  */
 package pacoteMain;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -294,6 +295,12 @@ public class Tela extends javax.swing.JFrame {
         lista.clear();
         
         listaStr=null;
+        
+        imeiVelho=null;
+        simcardVelho=null;
+        
+        jTextField1.setEditable(true);
+        jTextField1.setBackground(Color.white);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -332,6 +339,9 @@ public class Tela extends javax.swing.JFrame {
         imei = jTextField2.getText();
         simcard = jTextField3.getText();
         msisdn = jTextField4.getText();
+        
+        jTextField1.setEditable(false);
+        jTextField1.setBackground(Color.lightGray);
 
         if(pedidoSap.length()!=10){
             JOptionPane.showMessageDialog(null, "Pedido SAP deve conter 10 caracteres !");
@@ -341,6 +351,43 @@ public class Tela extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "SIMCARD deve conter 18 caracteres !");
         }else if(msisdn.length()!=11){
             JOptionPane.showMessageDialog(null, "MSISDN deve conter 11 caracteres !");
+        }else if(linhas==0){
+            
+            ddd=msisdn.substring(0, 2);
+
+            if(ddd.equals("31")){
+                uf="MG";
+            }else if(ddd.equals("61")){
+                uf="DF";
+            }else{
+
+                uf=JOptionPane.showInputDialog(null, "Insira a UF da sua Massa: ");
+            }
+
+            while(uf.length()!=2){
+                JOptionPane.showMessageDialog(null, "UF Deve possuir apenas 2 caracteres:");
+                uf=JOptionPane.showInputDialog("Insira sua UF: ").toUpperCase();
+            }
+            
+            imeiVelho = imei;
+            simcardVelho = simcard;
+            
+            linhas++;
+            linha=xama.geraLinha(pedidoSap, uf, imei, simcard, msisdn);
+            //        jTextArea1.setText(linha);
+            jTextArea1.insert(linha, jTextArea1.getCaretPosition());
+            jTextArea1.append("\n");
+            titulo=xama.geraTitulo(pedidoSap, uf, imei, simcard, msisdn);
+            lista.add(linha);
+
+            jButton2.setEnabled(true);
+
+            //jTextField1.setText("");
+            jTextField2.setText("");
+            jTextField3.setText("");
+            jTextField4.setText("");
+       
+       
         }else if(linhas>=1){
                 if(imeiVelho.equals(imei)){
                 JOptionPane.showMessageDialog(null, "IMEI Utilizado é Igual da Linha Anterior !");
@@ -350,8 +397,7 @@ public class Tela extends javax.swing.JFrame {
                     
                     imeiVelho = imei;
                     simcardVelho = simcard;
-            
-            
+                    
                     ddd=msisdn.substring(0, 2);
 
                     if(ddd.equals("31")){
@@ -378,12 +424,13 @@ public class Tela extends javax.swing.JFrame {
 
                     jButton2.setEnabled(true);
 
-                    jTextField1.setText("");
+                    //jTextField1.setText("");
                     jTextField2.setText("");
                     jTextField3.setText("");
                     jTextField4.setText("");
+            
+                    
                 }
-        
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
