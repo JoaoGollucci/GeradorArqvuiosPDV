@@ -23,6 +23,11 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Tela extends javax.swing.JFrame {
         GeradorArquivo xama = new GeradorArquivo();
         String pedidoSap, imei, simcard, msisdn, linha, ddd, uf, titulo, imeiVelho=null, simcardVelho=null;
+        
+        String[] imeis = new String[10];
+        String[] simcards = new String[10];
+        String[] msisdns = new String[10];
+        
         int linhas=0;
         List lista = new ArrayList();
     	String[] listaStr;
@@ -335,13 +340,13 @@ public class Tela extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
 
+        System.out.println("teste");
+        
         pedidoSap = jTextField1.getText();
         imei = jTextField2.getText();
         simcard = jTextField3.getText();
         msisdn = jTextField4.getText();
-        
-        jTextField1.setEditable(false);
-        jTextField1.setBackground(Color.lightGray);
+                
 
         if(pedidoSap.length()!=10){
             JOptionPane.showMessageDialog(null, "Pedido SAP deve conter 10 caracteres !");
@@ -352,6 +357,11 @@ public class Tela extends javax.swing.JFrame {
         }else if(msisdn.length()!=11){
             JOptionPane.showMessageDialog(null, "MSISDN deve conter 11 caracteres !");
         }else if(linhas==0){
+            
+            System.out.println("teste linha 1");
+            
+            jTextField1.setEditable(false);
+            jTextField1.setBackground(Color.lightGray);
             
             ddd=msisdn.substring(0, 2);
 
@@ -369,8 +379,11 @@ public class Tela extends javax.swing.JFrame {
                 uf=JOptionPane.showInputDialog("Insira sua UF: ").toUpperCase();
             }
             
-            imeiVelho = imei;
-            simcardVelho = simcard;
+            //imeiVelho = imei;
+            //simcardVelho = simcard;
+            imeis[linhas]= imei;
+            simcards[linhas]=simcard;
+            msisdns[linhas]=msisdn;
             
             linhas++;
             linha=xama.geraLinha(pedidoSap, uf, imei, simcard, msisdn);
@@ -389,14 +402,25 @@ public class Tela extends javax.swing.JFrame {
        
        
         }else if(linhas>=1){
-                if(imeiVelho.equals(imei)){
+            
+            System.out.println("teste linha 2");
+            
+            for(int cont=0; cont>=10; cont++){
+                
+                System.out.println("Contando"+cont);
+            
+                if(imeis[cont].equals(imei)){
                 JOptionPane.showMessageDialog(null, "IMEI Utilizado é Igual da Linha Anterior !");
-                }else if(simcardVelho.equals(simcard)){
+                
+                }else if(simcards[cont].equals(simcard)){
                 JOptionPane.showMessageDialog(null, "SIMCARD Utilizado é Igual da Linha Anterior !");
                 }else{
                     
-                    imeiVelho = imei;
-                    simcardVelho = simcard;
+//                    imeiVelho = imei;
+//                    simcardVelho = simcard;
+                    imeis[linhas]= imei;
+                    simcards[linhas]=simcard;
+                    msisdns[linhas]=msisdn;
                     
                     ddd=msisdn.substring(0, 2);
 
@@ -430,7 +454,9 @@ public class Tela extends javax.swing.JFrame {
                     jTextField4.setText("");
             
                     
-                }
+                    }
+            }
+        
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
