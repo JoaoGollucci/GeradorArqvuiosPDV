@@ -31,6 +31,9 @@ public class Tela extends javax.swing.JFrame {
         int linhas=0;
         List lista = new ArrayList();
     	String[] listaStr;
+        
+        
+        int verifica;
     /**
      * Creates new form Tela
      */
@@ -277,7 +280,7 @@ public class Tela extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
         
-        JOptionPane.showMessageDialog(null, "Gerador de Arquivo PDV - V 0.1 - by Gollucci");
+        JOptionPane.showMessageDialog(null, "Gerador de Arquivo PDV - V 2.0 - by Gollucci");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -339,8 +342,7 @@ public class Tela extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-
-        System.out.println("teste");
+        
         
         pedidoSap = jTextField1.getText();
         imei = jTextField2.getText();
@@ -405,15 +407,27 @@ public class Tela extends javax.swing.JFrame {
             
             System.out.println("teste linha 2");
             
-            for(int cont=0; cont>=10; cont++){
-                
-                System.out.println("Contando"+cont);
-            
+            for(int cont=0; cont<=10; cont++){
                 if(imeis[cont].equals(imei)){
-                JOptionPane.showMessageDialog(null, "IMEI Utilizado é Igual da Linha Anterior !");
-                
+                    verifica=1;
+                    break;
                 }else if(simcards[cont].equals(simcard)){
+                    verifica=2;
+                    break;
+                }else{
+                    break;
+                }
+            }
+                
+                
+            
+                if(verifica==1){
+                JOptionPane.showMessageDialog(null, "IMEI Utilizado é Igual da Linha Anterior !");
+                verifica=0;
+                
+                 }else if(verifica==2){
                 JOptionPane.showMessageDialog(null, "SIMCARD Utilizado é Igual da Linha Anterior !");
+                verifica=0;
                 }else{
                     
 //                    imeiVelho = imei;
@@ -421,6 +435,8 @@ public class Tela extends javax.swing.JFrame {
                     imeis[linhas]= imei;
                     simcards[linhas]=simcard;
                     msisdns[linhas]=msisdn;
+                    
+                    
                     
                     ddd=msisdn.substring(0, 2);
 
@@ -455,7 +471,7 @@ public class Tela extends javax.swing.JFrame {
             
                     
                     }
-            }
+            
         
         }
     }//GEN-LAST:event_jButton1ActionPerformed
